@@ -28,7 +28,7 @@ class ProductsView: UIViewController {
     }
     
     private func  configureSearchBar() {
-        searchBar.placeholder = "Search in Mercado Libre"
+        searchBar.placeholder = "Buscar en Mercado Libre"
         searchBar.delegate = self
     }
     
@@ -62,6 +62,7 @@ extension ProductsView: UITableViewDataSource, UITableViewDelegate {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ProductCellView") as? ProductCellView, let viewModel = self.viewModel else {
             return UITableViewCell()
         }
+        cell.selectionStyle = .none
         cell.configure(viewModel: ProductCellViewModel(product: viewModel.productsList[indexPath.row]))
         return cell
     }
@@ -85,7 +86,7 @@ extension ProductsView: UISearchBarDelegate {
             return
         }
         
-        guard let formatedText = text.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed), formatedText.count > 1 else {
+        guard let formatedText = text.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {
             return
         }
         

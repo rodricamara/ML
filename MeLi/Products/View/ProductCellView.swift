@@ -25,8 +25,13 @@ class ProductCellView: UITableViewCell {
     func configure(viewModel: ProductCellViewModel) {
         self.productTitle.numberOfLines = 0
         self.productTitle.text = viewModel.title
-        self.productPrice.text = String(viewModel.price)
-        self.productCondition.text = viewModel.condition
+        self.productPrice.text = String("$ \(Int(viewModel.price))")
+        self.productCondition.textColor = .orange
+        self.productCondition.text = translateCondition(text: viewModel.condition)
         self.productImage.image(fromString: viewModel.image!)
+    }
+    
+    private func translateCondition(text: String) -> String {
+        return text == "new" ? "Nuevo": "Usado"
     }
 }

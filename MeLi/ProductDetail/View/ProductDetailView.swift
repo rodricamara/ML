@@ -17,7 +17,7 @@ class ProductDetailView: UIViewController {
     }
     
     private func configureNavBar() {
-        title = "Product Detail"
+        title = "Detalle del Producto"
         self.navigationController?.navigationBar.tintColor = .black
     }
 
