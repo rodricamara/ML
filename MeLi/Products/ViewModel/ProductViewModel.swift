@@ -34,8 +34,10 @@ extension ProductViewModel: ProductViewModelProtocol {
             case .success(let responseModel):
                 self?.productsList = responseModel.results
                 if responseModel.results.isEmpty {
+                    self?.productsList = []
                     completion(.empty)
                 } else {
+                    self?.productsList = responseModel.results
                     completion(.success)
                 }
             case .failure(let error):

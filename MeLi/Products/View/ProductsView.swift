@@ -28,7 +28,7 @@ class ProductsView: UIViewController {
     }
     
     private func  configureSearchBar() {
-        searchBar.placeholder = "Buscar en Mercado Libre"
+        searchBar.placeholder = "Search in Mercado Libre"
         searchBar.delegate = self
     }
     
@@ -80,8 +80,7 @@ extension ProductsView: UISearchBarDelegate {
         self.searchBar.resignFirstResponder()
     }
     
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         guard let text = searchBar.text else {
             return
         }
@@ -90,12 +89,11 @@ extension ProductsView: UISearchBarDelegate {
             return
         }
         
+        view.showLoadingView(activityColor: .black, backgroundColor: .lightGray)
         viewModel?.getProducts(using: formatedText, completion: { [weak self] (response) in
             switch response {
             case .success:
-                DispatchQueue.main.async {
-                    self?.productTableView.reloadData()
-                }
+                break
             case .empty:
                 DispatchQueue.main.async {
                     self?.showErrorWithMessage("No se encontraron resultados para tu búsqueda", completion: {
@@ -104,9 +102,12 @@ extension ProductsView: UISearchBarDelegate {
                 }
             case .failure(_):
                 DispatchQueue.main.async {
-                    self?.productTableView.reloadData()
                     self?.showErrorWithMessage("Hubo un error. Intente nuevamente")
                 }
+            }
+            DispatchQueue.main.async {
+                self?.productTableView.reloadData()
+                self?.view.hideLoadingView()
             }
         })
     }

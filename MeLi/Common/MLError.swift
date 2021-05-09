@@ -12,7 +12,6 @@ enum MLError: Error {
     case serviceError
     
     var errorDescription: String {
-        
         switch self {
         case .dataIsNil:
             return "Error: The data is nil."
