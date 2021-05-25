@@ -1,0 +1,22 @@
+/* 
+  Localizable.strings
+  MeLi
+
+  Created by Rodrigo Camara on 25/05/2021.
+  
+*/
+
+//MARK: General
+SEARCH_BAR_PLACEHOLDER = "Buscar en Mercado Libre";
+
+//MARK: Product
+PRODUCTS_NO_RESULT_MSG = "No se encontraron resultados para tu búsqueda";
+PRODUCTS_ERROR_MSG = "Hubo un error. Intente nuevamente";
+
+PRODUCT_CONDITION = "new";
+PRODUCT_CONDITION_NEW = "Nuevo";
+PRODUCT_CONDITION_USED = "Usado";
+
+//MARK: Product Detail
+PRODUCT_DETAIL_TITLE = "Detalle del Producto";
+DESCRIPTION_MSG = "Descripción";

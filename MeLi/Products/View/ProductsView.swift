@@ -28,7 +28,7 @@ class ProductsView: UIViewController {
     }
     
     private func  configureSearchBar() {
-        searchBar.placeholder = "Buscar en Mercado Libre"
+        searchBar.placeholder = "SEARCH_BAR_PLACEHOLDER".localized
         searchBar.delegate = self
     }
     
@@ -48,6 +48,7 @@ class ProductsView: UIViewController {
         guard let prodDetailVC = segue.destination as? ProductDetailView else {
             return
         }
+        navigationItem.backBarButtonItem = UIBarButtonItem()
         prodDetailVC.product = productSelected
     }
     
@@ -86,24 +87,24 @@ extension ProductsView: UISearchBarDelegate {
             return
         }
         
-        guard let formatedText = text.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {
+        guard let formatedText = text.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed), text.count >= 1 else {
             return
         }
         
-        view.showLoadingView(activityColor: .black, backgroundColor: .lightGray)
+        view.showLoadingView(activityColor: .gray, backgroundColor: .white)
         viewModel?.getProducts(using: formatedText, completion: { [weak self] (response) in
             switch response {
             case .success:
                 break
             case .empty:
                 DispatchQueue.main.async {
-                    self?.showErrorWithMessage("No se encontraron resultados para tu búsqueda", completion: {
+                    self?.showErrorWithMessage("PRODUCTS_NO_RESULT_MSG".localized, completion: {
                         searchBar.text = ""
                     })
                 }
             case .failure(_):
                 DispatchQueue.main.async {
-                    self?.showErrorWithMessage("Hubo un error. Intente nuevamente")
+                    self?.showErrorWithMessage("PRODUCTS_ERROR_MSG".localized)
                 }
             }
             DispatchQueue.main.async {

@@ -8,5 +8,6 @@
 enum MLEndpoints: String {
     case baseURL = "https://api.mercadolibre.com"
     case productsSearch = "/sites/MLA/search?q="
-    case itemSearch = "/items"
+    case itemSearch = "/items/"
+    case itemDescription = "/description"
 }

@@ -32,6 +32,6 @@ class ProductCellView: UITableViewCell {
     }
     
     private func translateCondition(text: String) -> String {
-        return text == "new" ? "Nuevo": "Usado"
+        return text == "PRODUCT_CONDITION".localized ? "PRODUCT_CONDITION_NEW".localized : "PRODUCT_CONDITION_USED".localized
     }
 }
