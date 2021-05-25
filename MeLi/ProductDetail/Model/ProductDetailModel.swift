@@ -11,7 +11,7 @@ struct ProductDetail: Decodable {
     
     var id: String
     let title: String
-    let pictures: [Pictures]
+    let pictures: [Picture]
     let price: Double
     let condition: String
 
@@ -25,7 +25,7 @@ struct ProductDetail: Decodable {
     
     init(id: String,
          title: String,
-         pictures: [Pictures],
+         pictures: [Picture],
          price: Double,
          condition: String) {
         self.id = id
@@ -36,7 +36,7 @@ struct ProductDetail: Decodable {
     }
 }
 
-struct Pictures: Decodable {
+struct Picture: Decodable {
     let id: String
     let imageUrl: String
     

@@ -7,11 +7,6 @@
 
 import Foundation
 
-enum ProductListResponse {
-    case success(products: ProductResponse)
-    case failure(error: MLError)
-}
-
 typealias ProductResponseClosure = (ProductListResponse) -> Void
 
 protocol ProductServiceProtocol {
@@ -32,15 +27,16 @@ extension ProductService: ProductServiceProtocol {
     
     func searchProducts(products: String, completion: @escaping ProductResponseClosure) {
         
-        let url = URL(string: MLEndpoints.baseURL.rawValue+MLEndpoints.productsSearch.rawValue+products)!
-        let request = URLRequest.init(url: url, method: .post, body: nil)
-        
-        manager.callAPI(request: request) { (response: Result<ProductResponse, MLError>) in
-            switch response {
-            case .success(let product):
-                completion(.success(products: product))
-            case .failure(let error):
-                print(error.errorDescription)
+        if let url = URL(string: MLEndpoints.baseURL.rawValue+MLEndpoints.productsSearch.rawValue+products) {
+            let request = URLRequest.init(url: url, method: .post, body: nil)
+            
+            manager.callAPI(request: request) { (response: Result<ProductResult, MLError>) in
+                switch response {
+                case .success(let product):
+                    completion(.success(products: product))
+                case .failure(let error):
+                    print(error.errorDescription)
+                }
             }
         }
     }

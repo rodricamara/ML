@@ -7,12 +7,6 @@
 
 import Foundation
 
-enum ProductsResponse {
-    case success
-    case empty
-    case failure(MLError)
-}
-
 protocol ProductViewModelProtocol {
     var productsList: [Product] { get }
     func getProducts(using text: String, completion: @escaping (ProductsResponse) -> Void)

@@ -8,6 +8,7 @@
 
 //MARK: General
 SEARCH_BAR_PLACEHOLDER = "Buscar en Mercado Libre";
+PLACEHOLDER = "placeholder.png";
 
 //MARK: Product
 PRODUCTS_NO_RESULT_MSG = "No se encontraron resultados para tu búsqueda";

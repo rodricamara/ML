@@ -17,7 +17,7 @@ extension UIImageView {
                 }
             } else {
                 DispatchQueue.main.async {
-                    self.image = UIImage(named: "placeholder.png")
+                    self.image = UIImage(named: "PLACEHOLDER".localized)
                 }
             }
         }

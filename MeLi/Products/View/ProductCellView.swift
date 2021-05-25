@@ -25,10 +25,15 @@ class ProductCellView: UITableViewCell {
     func configure(viewModel: ProductCellViewModel) {
         self.productTitle.numberOfLines = 0
         self.productTitle.text = viewModel.title
+        
         self.productPrice.text = String("$ \(Int(viewModel.price))")
+        
         self.productCondition.textColor = .orange
         self.productCondition.text = translateCondition(text: viewModel.condition)
-        self.productImage.image(fromString: viewModel.image!)
+        
+        self.productImage.image = UIImage(named: "PLACEHOLDER".localized)
+        guard let image = viewModel.image else { return }
+        self.productImage.image(fromString: image)
     }
     
     private func translateCondition(text: String) -> String {

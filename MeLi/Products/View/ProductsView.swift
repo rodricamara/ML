@@ -72,7 +72,7 @@ extension ProductsView: UITableViewDataSource, UITableViewDelegate {
         guard let product = viewModel?.productsList[indexPath.row] else {
             return
         }
-        self.performSegue(withIdentifier: "showProductDetail", sender: product)
+        self.performSegue(withIdentifier: "ShowProductDetail", sender: product)
     }
 }
 

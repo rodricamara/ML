@@ -10,10 +10,10 @@ import UIKit
 class ProductDetailView: UIViewController {
     
     @IBOutlet weak var prodTitle: UILabel!
-    @IBOutlet weak var image: UIImageView!
     @IBOutlet weak var price: UILabel!
     @IBOutlet weak var descriptionLbl: UILabel!
     @IBOutlet weak var descriptionTitle: UILabel!
+    @IBOutlet weak var imagesCollection: UICollectionView!
     
     var product: Product?
     var viewModel: ProductDetailViewModelProtocol?
@@ -25,6 +25,7 @@ class ProductDetailView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavBar()
+        configureDelegates()
         viewModel = ProductDetailViewModel()
         fetchProductDetail()
     }
@@ -32,6 +33,11 @@ class ProductDetailView: UIViewController {
     private func configureNavBar() {
         title = "PRODUCT_DETAIL_TITLE".localized
         self.navigationController?.navigationBar.tintColor = .black 
+    }
+    
+    private func configureDelegates() {
+        imagesCollection.dataSource = self
+        imagesCollection.delegate = self
     }
     
     private func fetchProductDetail() {
@@ -44,13 +50,13 @@ class ProductDetailView: UIViewController {
                     switch response {
                     case .success:
                         DispatchQueue.main.async {
+                            self?.imagesCollection.reloadData()
                             self?.configureUI()
                         }
                     case .failure:
                         print("error")
                     }
                 })
-
             case .failure:
                 print("error")
             }
@@ -61,11 +67,25 @@ class ProductDetailView: UIViewController {
         guard let viewModel = viewModel else { return }
         descriptionTitle.text = "DESCRIPTION_MSG".localized
         prodTitle.text = viewModel.prodDetail.title
-        //image.image(fromString: viewModel?.prodDetail.pictures.first)
-        //image.image(fromString: product.imageURL)
         price.text = String("$ \(Int(viewModel.prodDetail.price))")
         descriptionLbl.text = viewModel.prodDescrip.description
         view.hideLoadingView()
     }
 
+}
+
+extension ProductDetailView: UICollectionViewDataSource, UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return viewModel?.prodDetail.pictures.count ?? 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductsImagesCell", for: indexPath) as! ProductDetailCollectionViewCell
+
+        cell.picture = viewModel?.prodDetail.pictures[indexPath.item]
+        
+        return cell
+    }
+    
 }
