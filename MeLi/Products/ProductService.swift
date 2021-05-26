@@ -7,7 +7,12 @@
 
 import Foundation
 
-typealias ProductResponseClosure = (ProductListResponse) -> Void
+enum ProductsResponse {
+    case success(products: ProductResult)
+    case failure(error: MLError)
+}
+
+typealias ProductResponseClosure = (ProductsResponse) -> Void
 
 protocol ProductServiceProtocol {
     func searchProducts(products: String, completion: @escaping ProductResponseClosure)

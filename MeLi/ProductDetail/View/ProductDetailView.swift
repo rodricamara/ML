@@ -40,10 +40,14 @@ class ProductDetailView: UIViewController {
     
     private func fetchProductDetail() {
         view.showLoadingView(activityColor: .gray, backgroundColor: .white)
-        viewModel?.getProductDetail(completion: { [weak self] response in
+        
+        viewModel?.getProductDetail(completion: { [weak self] response  in
             switch response {
             case .success:
-                self?.handleProductDetailSuccess()
+                DispatchQueue.main.async {
+                    self?.imagesCollection.reloadData()
+                    self?.configureUI()
+                }
             case .failure:
                 DispatchQueue.main.async {
                     self?.showErrorWithMessage("PRODUCTS_ERROR_MSG".localized, completion: {
@@ -64,25 +68,6 @@ class ProductDetailView: UIViewController {
         view.hideLoadingView()
     }
     
-    private func handleProductDetailSuccess() {
-        self.viewModel?.getProductDescription(completion: { [weak self] (response) in
-            switch response {
-            case .success:
-                DispatchQueue.main.async {
-                    self?.imagesCollection.reloadData()
-                    self?.configureUI()
-                }
-            case .failure:
-                DispatchQueue.main.async {
-                    self?.showErrorWithMessage("PRODUCTS_ERROR_MSG".localized, completion: {
-                        self?.view.hideLoadingView()
-                        self?.navigationController?.popViewController(animated: true)
-                    })
-                }
-            }
-        })
-    }
-
 }
 
 extension ProductDetailView: UICollectionViewDataSource, UICollectionViewDelegate {

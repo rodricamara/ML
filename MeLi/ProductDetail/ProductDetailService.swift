@@ -7,6 +7,16 @@
 
 import Foundation
 
+enum ProductDetailResponse {
+    case success(product: ProductDetail)
+    case failure(error: MLError)
+}
+
+enum ProductDescriptionResponse {
+    case success(description: Description)
+    case failure(error: MLError)
+}
+
 typealias ProductDetailResponseClosure = (ProductDetailResponse) -> Void
 typealias ProductDescriptionResponseClosure = (ProductDescriptionResponse) -> Void
 

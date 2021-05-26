@@ -7,9 +7,15 @@
 
 import Foundation
 
+enum GetProductsResponse {
+    case success
+    case empty
+    case failure(MLError)
+}
+
 protocol ProductViewModelProtocol {
     var model: [ProductModelViewModelProtocol]? { get }
-    func getProducts(using text: String, completion: @escaping (ProductsResponse) -> Void)
+    func getProducts(using text: String, completion: @escaping (GetProductsResponse) -> Void)
 }
 
 final class ProductViewModel {
@@ -24,7 +30,7 @@ final class ProductViewModel {
 
 extension ProductViewModel: ProductViewModelProtocol {
     
-    func getProducts(using text: String, completion: @escaping (ProductsResponse) -> Void) {
+    func getProducts(using text: String, completion: @escaping (GetProductsResponse) -> Void) {
         service.searchProducts(products: text) { [weak self] (response) in
             switch response {
             case .success(let responseModel):

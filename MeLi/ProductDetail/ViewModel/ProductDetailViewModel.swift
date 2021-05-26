@@ -7,11 +7,15 @@
 
 import Foundation
 
+enum GetProductDetailResponse {
+    case success
+    case failure(MLError)
+}
+
 protocol ProductDetailViewModelProtocol {
     var modelDetail: ProductDetailModelProtocol? { get }
     var modelDescrip: ProductDescriptionModelProtocol? { get }
-    func getProductDetail(completion: @escaping (ProductResponse) -> Void)
-    func getProductDescription(completion: @escaping (ProductResponse) -> Void)
+    func getProductDetail(completion: @escaping (GetProductDetailResponse) -> Void)
 }
 
 final class ProductDetailViewModel {
@@ -31,12 +35,30 @@ final class ProductDetailViewModel {
 
 extension ProductDetailViewModel: ProductDetailViewModelProtocol {
     
-    func getProductDetail(completion: @escaping (ProductResponse) -> Void) {
-        
+    func getProductDetail(completion: @escaping (GetProductDetailResponse) -> Void) {
         service.searchProductDetail(with: id) { [weak self] (response) in
             switch response {
             case .success(let resp):
                 self?.handleProdDetailSuccess(prodDetail: resp)
+                self?.getProdDescription(completion: { (response) in
+                    switch response {
+                    case .success:
+                        completion(.success)
+                    case .failure(let error):
+                        completion(.failure(error))
+                    }
+                })
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    private func getProdDescription(completion: @escaping (GetProductDetailResponse) -> Void) {
+        service.searchProductDescription(with: id) { [weak self] (response) in
+            switch response {
+            case .success(let resp):
+                self?.modelDescrip = ProductDescriptionModel(description: resp.description)
                 completion(.success)
             case .failure(let error):
                 completion(.failure(error))
@@ -53,19 +75,6 @@ extension ProductDetailViewModel: ProductDetailViewModelProtocol {
                                               pictures: pictures,
                                               price: prodDetail.price,
                                               condition: prodDetail.condition)
-    }
-    
-    func getProductDescription(completion: @escaping (ProductResponse) -> Void) {
-        
-        service.searchProductDescription(with: id) { [weak self] (response) in
-            switch response {
-            case .success(let resp):
-                self?.modelDescrip = ProductDescriptionModel(description: resp.description)
-                completion(.success)
-            case .failure(let error):
-                completion(.failure(error))
-            }
-        }
     }
     
 }
