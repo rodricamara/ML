@@ -18,7 +18,7 @@ protocol ProductServiceProtocol {
     func searchProducts(products: String, completion: @escaping ProductResponseClosure)
 }
 
-class ProductService {
+final class ProductService {
     
     var manager: NetworkManagerProtocol
     
@@ -32,16 +32,20 @@ extension ProductService: ProductServiceProtocol {
     
     func searchProducts(products: String, completion: @escaping ProductResponseClosure) {
         
-        if let url = URL(string: MLEndpoints.baseURL.rawValue+MLEndpoints.productsSearch.rawValue+products) {
-            let request = URLRequest.init(url: url, method: .post, body: nil)
-            
-            manager.callAPI(request: request) { (response: Result<ProductResult, MLError>) in
-                switch response {
-                case .success(let product):
-                    completion(.success(products: product))
-                case .failure(let error):
-                    print(error.errorDescription)
-                }
+        guard let url = URL(string: MLEndpoints.baseURL.rawValue+MLEndpoints.productsSearch.rawValue+products) else {
+            let error: MLError = .invalidURL
+            print(error.errorDescription)
+            return completion(.failure(error: error))
+        }
+        let request = URLRequest.init(url: url, method: .post, body: nil)
+        
+        manager.callAPI(request: request) { (response: Result<ProductResult, MLError>) in
+            switch response {
+            case .success(let resp):
+                completion(.success(products: resp))
+            case .failure(let error):
+                print(error.errorDescription)
+                completion(.failure(error: error))
             }
         }
     }

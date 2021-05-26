@@ -119,6 +119,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		80243026265F0A4F00B2A5A9 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				80281830264739A4006B0C40 /* ProductService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		8024302A265F0A5800B2A5A9 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				800DC192265D50A600EE0FD0 /* ProductDetailService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
 		8028182726473029006B0C40 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -144,7 +160,7 @@
 		806C82A6264779E70021F851 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				80281830264739A4006B0C40 /* ProductService.swift */,
+				80243026265F0A4F00B2A5A9 /* Service */,
 				806EFFDF264721EF00AB52FD /* Model */,
 				806EFFE02647220600AB52FD /* View */,
 				8028182726473029006B0C40 /* ViewModel */,
@@ -155,7 +171,7 @@
 		806C82A7264779F50021F851 /* ProductDetail */ = {
 			isa = PBXGroup;
 			children = (
-				800DC192265D50A600EE0FD0 /* ProductDetailService.swift */,
+				8024302A265F0A5800B2A5A9 /* Service */,
 				809D3FDC264D7CF200ECE45F /* Model */,
 				806C82B026477A1C0021F851 /* View */,
 				809D3FD6264D7BEC00ECE45F /* ViewModel */,

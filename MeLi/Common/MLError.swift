@@ -10,6 +10,7 @@ enum MLError: Error {
     case decodingError
     case dataIsNil
     case serviceError
+    case invalidURL
     
     var errorDescription: String {
         switch self {
@@ -19,6 +20,8 @@ enum MLError: Error {
             return "Error: Failed when parsing."
         case .serviceError:
             return "Error: There's an error in the service."
+        case .invalidURL:
+            return "Error: There's an error in the URL requested."
         }
     }
 }
