@@ -58,9 +58,9 @@ class ProductDetailView: UIViewController {
     private func configureUI() {
         guard let viewModel = viewModel else { return }
         descriptionTitle.text = "DESCRIPTION_MSG".localized
-        prodTitle.text = viewModel.prodDetail?.title
-        price.text = String("$ \(Int(viewModel.prodDetail?.price ?? 0))")
-        descriptionLbl.text = viewModel.prodDescrip?.description
+        prodTitle.text = viewModel.modelDetail?.title
+        price.text = String("$ \(Int(viewModel.modelDetail?.price ?? 0))")
+        descriptionLbl.text = viewModel.modelDescrip?.description
         view.hideLoadingView()
     }
     
@@ -88,13 +88,13 @@ class ProductDetailView: UIViewController {
 extension ProductDetailView: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel?.prodDetail?.pictures.count ?? 0
+        return viewModel?.modelDetail?.pictures.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductsImagesCell", for: indexPath) as! ProductDetailCollectionViewCell
 
-        cell.picture = viewModel?.prodDetail?.pictures[indexPath.item]
+        cell.picture = viewModel?.modelDetail?.pictures[indexPath.item]
         
         return cell
     }

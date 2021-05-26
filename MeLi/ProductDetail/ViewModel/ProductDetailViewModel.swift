@@ -8,19 +8,19 @@
 import Foundation
 
 protocol ProductDetailViewModelProtocol {
-    var prodDetail: ProductDetail? { get }
-    var prodDescrip: Description? { get }
+    var modelDetail: ProductDetailModelProtocol? { get }
+    var modelDescrip: ProductDescriptionModelProtocol? { get }
     func getProductDetail(completion: @escaping (ProductResponse) -> Void)
     func getProductDescription(completion: @escaping (ProductResponse) -> Void)
 }
 
 final class ProductDetailViewModel {
     
-    var prodDescrip: Description?
-    var prodDetail: ProductDetail?
     var id: String
     let service: ProductDetailServiceProtocol
-      
+    var modelDetail: ProductDetailModelProtocol?
+    var modelDescrip: ProductDescriptionModelProtocol?
+    
     init(service: ProductDetailServiceProtocol = ProductDetailService(),
          id: String) {
         self.service = service
@@ -35,8 +35,8 @@ extension ProductDetailViewModel: ProductDetailViewModelProtocol {
         
         service.searchProductDetail(with: id) { [weak self] (response) in
             switch response {
-            case .success(let product):
-                self?.prodDetail = product
+            case .success(let resp):
+                self?.handleProdDetailSuccess(prodDetail: resp)
                 completion(.success)
             case .failure(let error):
                 completion(.failure(error))
@@ -44,12 +44,23 @@ extension ProductDetailViewModel: ProductDetailViewModelProtocol {
         }
     }
     
+    private func handleProdDetailSuccess(prodDetail: ProductDetail) {
+        var pictures = [PictureModel]()
+        for item in prodDetail.pictures {
+            pictures.append(PictureModel(imageUrl: item.imageUrl))
+        }
+        self.modelDetail = ProductDetailModel(title: prodDetail.title,
+                                              pictures: pictures,
+                                              price: prodDetail.price,
+                                              condition: prodDetail.condition)
+    }
+    
     func getProductDescription(completion: @escaping (ProductResponse) -> Void) {
         
         service.searchProductDescription(with: id) { [weak self] (response) in
             switch response {
-            case .success(let description):
-                self?.prodDescrip = description
+            case .success(let resp):
+                self?.modelDescrip = ProductDescriptionModel(description: resp.description)
                 completion(.success)
             case .failure(let error):
                 completion(.failure(error))

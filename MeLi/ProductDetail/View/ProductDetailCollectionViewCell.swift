@@ -11,7 +11,7 @@ class ProductDetailCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var productImage: UIImageView!
     
-    var picture: Picture? {
+    var picture: PictureModel? {
         didSet {
             self.updateUI()
         }
