@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProductsView: UIViewController {
+final class ProductsView: UIViewController {
     
     @IBOutlet var searchBar: UISearchBar!
     @IBOutlet weak var productTableView: UITableView!

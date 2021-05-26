@@ -11,7 +11,7 @@ protocol NetworkManagerProtocol {
     func callAPI<T: Decodable>(request: URLRequest, completion: @escaping (Result<T, MLError>) -> Void)
 }
 
-class NetworkManager {
+final class NetworkManager {
     
     let session = URLSession.shared
     

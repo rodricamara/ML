@@ -14,7 +14,7 @@ protocol ProductCellViewModelProtocol {
     var condition: String { get }
 }
 
-class ProductCellViewModel: ProductCellViewModelProtocol {
+final class ProductCellViewModel: ProductCellViewModelProtocol {
     
     var image: String? {
         return product.imageURL

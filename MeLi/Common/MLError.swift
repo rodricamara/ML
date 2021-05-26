@@ -21,7 +21,7 @@ enum MLError: Error {
         case .serviceError:
             return "Error: There's an error in the service."
         case .invalidURL:
-            return "Error: There's an error in the URL requested."
+            return "Error: There's an error in the requested URL."
         }
     }
 }

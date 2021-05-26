@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProductDetailView: UIViewController {
+final class ProductDetailView: UIViewController {
     
     @IBOutlet weak var prodTitle: UILabel!
     @IBOutlet weak var price: UILabel!
