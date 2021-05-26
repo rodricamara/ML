@@ -37,7 +37,7 @@ extension ProductDetailService: ProductDetailServiceProtocol {
                 case .success(let productDetail):
                     completion(.success(product: productDetail))
                 case .failure(let error):
-                    print(error.errorDescription)
+                    completion(.failure(error: error))
                 }
             }
         }
@@ -53,7 +53,7 @@ extension ProductDetailService: ProductDetailServiceProtocol {
                 case .success(let productDescription):
                     completion(.success(description: productDescription))
                 case .failure(let error):
-                    print(error.errorDescription)
+                    completion(.failure(error: error))
                 }
             }
         }

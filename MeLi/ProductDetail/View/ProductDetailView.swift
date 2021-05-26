@@ -54,11 +54,21 @@ class ProductDetailView: UIViewController {
                             self?.configureUI()
                         }
                     case .failure:
-                        print("error")
+                        DispatchQueue.main.async {
+                            self?.showErrorWithMessage("PRODUCTS_ERROR_MSG".localized, completion: {
+                                self?.view.hideLoadingView()
+                                self?.navigationController?.popViewController(animated: true)
+                            })
+                        }
                     }
                 })
             case .failure:
-                print("error")
+                DispatchQueue.main.async {
+                    self?.showErrorWithMessage("PRODUCTS_ERROR_MSG".localized, completion: {
+                        self?.view.hideLoadingView()
+                        self?.navigationController?.popViewController(animated: true)
+                    })
+                }
             }
         })
     }
