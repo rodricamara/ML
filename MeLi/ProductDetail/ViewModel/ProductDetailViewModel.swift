@@ -8,25 +8,30 @@
 import Foundation
 
 protocol ProductDetailViewModelProtocol {
-    var prodDetail: ProductDetail { get }
-    var prodDescrip: Description { get }
-    func getProductDetail(with id: String, completion: @escaping (ProductResponse) -> Void)
-    func getProductDescription(with id: String, completion: @escaping (ProductResponse) -> Void)
+    var prodDetail: ProductDetail? { get }
+    var prodDescrip: Description? { get }
+    func getProductDetail(completion: @escaping (ProductResponse) -> Void)
+    func getProductDescription(completion: @escaping (ProductResponse) -> Void)
 }
 
 final class ProductDetailViewModel {
     
-    var prodDetail = ProductDetail(id: "", title: "", pictures: [], price: 0.0, condition: "")
-    var prodDescrip = Description(description: "")
-    let service = ProductDetailService()
-    
-    init() {}
+    var prodDescrip: Description?
+    var prodDetail: ProductDetail?
+    var id: String
+    let service: ProductDetailServiceProtocol
+      
+    init(service: ProductDetailServiceProtocol = ProductDetailService(),
+         id: String) {
+        self.service = service
+        self.id = id
+    }
     
 }
 
 extension ProductDetailViewModel: ProductDetailViewModelProtocol {
     
-    func getProductDetail(with id: String, completion: @escaping (ProductResponse) -> Void) {
+    func getProductDetail(completion: @escaping (ProductResponse) -> Void) {
         
         service.searchProductDetail(with: id) { [weak self] (response) in
             switch response {
@@ -39,7 +44,7 @@ extension ProductDetailViewModel: ProductDetailViewModelProtocol {
         }
     }
     
-    func getProductDescription(with id: String, completion: @escaping (ProductResponse) -> Void) {
+    func getProductDescription(completion: @escaping (ProductResponse) -> Void) {
         
         service.searchProductDescription(with: id) { [weak self] (response) in
             switch response {

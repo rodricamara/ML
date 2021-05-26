@@ -15,9 +15,11 @@ protocol ProductViewModelProtocol {
 final class ProductViewModel {
     
     var productsList = [Product]()
-    let service = ProductService()
+    let service: ProductServiceProtocol
     
-    init() { }
+    init(service: ProductServiceProtocol = ProductService()) {
+        self.service = service
+    }
 }
 
 extension ProductViewModel: ProductViewModelProtocol {

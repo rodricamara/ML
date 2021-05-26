@@ -48,8 +48,8 @@ class ProductsView: UIViewController {
         guard let prodDetailVC = segue.destination as? ProductDetailView else {
             return
         }
+        prodDetailVC.viewModel = ProductDetailViewModel(id: productSelected.id)
         navigationItem.backBarButtonItem = UIBarButtonItem()
-        prodDetailVC.product = productSelected
     }
     
 }

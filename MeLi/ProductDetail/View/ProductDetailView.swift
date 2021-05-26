@@ -15,7 +15,6 @@ class ProductDetailView: UIViewController {
     @IBOutlet weak var descriptionTitle: UILabel!
     @IBOutlet weak var imagesCollection: UICollectionView!
     
-    var product: Product?
     var viewModel: ProductDetailViewModelProtocol?
     
     override func awakeFromNib() {
@@ -26,7 +25,6 @@ class ProductDetailView: UIViewController {
         super.viewDidLoad()
         configureNavBar()
         configureDelegates()
-        viewModel = ProductDetailViewModel()
         fetchProductDetail()
     }
     
@@ -41,27 +39,11 @@ class ProductDetailView: UIViewController {
     }
     
     private func fetchProductDetail() {
-        guard let id = product?.id else { return }
         view.showLoadingView(activityColor: .gray, backgroundColor: .white)
-        viewModel?.getProductDetail(with: id, completion: { [weak self] response in
+        viewModel?.getProductDetail(completion: { [weak self] response in
             switch response {
             case .success:
-                self?.viewModel?.getProductDescription(with: id, completion: { [weak self] (response) in
-                    switch response {
-                    case .success:
-                        DispatchQueue.main.async {
-                            self?.imagesCollection.reloadData()
-                            self?.configureUI()
-                        }
-                    case .failure:
-                        DispatchQueue.main.async {
-                            self?.showErrorWithMessage("PRODUCTS_ERROR_MSG".localized, completion: {
-                                self?.view.hideLoadingView()
-                                self?.navigationController?.popViewController(animated: true)
-                            })
-                        }
-                    }
-                })
+                self?.handleProductDetailSuccess()
             case .failure:
                 DispatchQueue.main.async {
                     self?.showErrorWithMessage("PRODUCTS_ERROR_MSG".localized, completion: {
@@ -76,10 +58,29 @@ class ProductDetailView: UIViewController {
     private func configureUI() {
         guard let viewModel = viewModel else { return }
         descriptionTitle.text = "DESCRIPTION_MSG".localized
-        prodTitle.text = viewModel.prodDetail.title
-        price.text = String("$ \(Int(viewModel.prodDetail.price))")
-        descriptionLbl.text = viewModel.prodDescrip.description
+        prodTitle.text = viewModel.prodDetail?.title
+        price.text = String("$ \(Int(viewModel.prodDetail?.price ?? 0))")
+        descriptionLbl.text = viewModel.prodDescrip?.description
         view.hideLoadingView()
+    }
+    
+    private func handleProductDetailSuccess() {
+        self.viewModel?.getProductDescription(completion: { [weak self] (response) in
+            switch response {
+            case .success:
+                DispatchQueue.main.async {
+                    self?.imagesCollection.reloadData()
+                    self?.configureUI()
+                }
+            case .failure:
+                DispatchQueue.main.async {
+                    self?.showErrorWithMessage("PRODUCTS_ERROR_MSG".localized, completion: {
+                        self?.view.hideLoadingView()
+                        self?.navigationController?.popViewController(animated: true)
+                    })
+                }
+            }
+        })
     }
 
 }
@@ -87,13 +88,13 @@ class ProductDetailView: UIViewController {
 extension ProductDetailView: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel?.prodDetail.pictures.count ?? 0
+        return viewModel?.prodDetail?.pictures.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductsImagesCell", for: indexPath) as! ProductDetailCollectionViewCell
 
-        cell.picture = viewModel?.prodDetail.pictures[indexPath.item]
+        cell.picture = viewModel?.prodDetail?.pictures[indexPath.item]
         
         return cell
     }

@@ -22,18 +22,6 @@ struct ProductDetail: Decodable {
         case price
         case condition
     }
-    
-    init(id: String,
-         title: String,
-         pictures: [Picture],
-         price: Double,
-         condition: String) {
-        self.id = id
-        self.title = title
-        self.pictures = pictures
-        self.price = price
-        self.condition = condition
-    }
 }
 
 struct Picture: Decodable {
