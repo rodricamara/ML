@@ -42,15 +42,15 @@ extension ProductViewModel: ProductViewModelProtocol {
     }
     
     private func handleProductsSuccess(products: [Product]) {
-        var products = [ProductModelViewModel]()
+        var productsModel = [ProductModelViewModel]()
         for item in products {
-            products.append(ProductModelViewModel(id: item.id,
-                                                  title: item.title,
-                                                  price: item.price,
-                                                  imageURL: item.imageURL,
-                                                  condition: item.condition))
+            productsModel.append(ProductModelViewModel(id: item.id,
+                                                       title: item.title,
+                                                       price: item.price,
+                                                       imageURL: item.imageURL,
+                                                       condition: item.condition))
         }
-        self.model = products
+        self.model = productsModel
     }
     
 }
