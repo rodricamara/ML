@@ -8,13 +8,13 @@
 import Foundation
 
 protocol ProductViewModelProtocol {
-    var productsList: [Product] { get }
+    var model: [ProductModelViewModelProtocol]? { get }
     func getProducts(using text: String, completion: @escaping (ProductsResponse) -> Void)
 }
 
 final class ProductViewModel {
     
-    var productsList = [Product]()
+    var model: [ProductModelViewModelProtocol]?
     let service: ProductServiceProtocol
     
     init(service: ProductServiceProtocol = ProductService()) {
@@ -28,12 +28,11 @@ extension ProductViewModel: ProductViewModelProtocol {
         service.searchProducts(products: text) { [weak self] (response) in
             switch response {
             case .success(let responseModel):
-                self?.productsList = responseModel.results
                 if responseModel.results.isEmpty {
-                    self?.productsList = []
+                    self?.model = []
                     completion(.empty)
                 } else {
-                    self?.productsList = responseModel.results
+                    self?.handleProductsSuccess(products: responseModel.results)
                     completion(.success)
                 }
             case .failure(let error):
@@ -41,4 +40,17 @@ extension ProductViewModel: ProductViewModelProtocol {
             }
         }
     }
+    
+    private func handleProductsSuccess(products: [Product]) {
+        var products = [ProductModelViewModel]()
+        for item in products {
+            products.append(ProductModelViewModel(id: item.id,
+                                                  title: item.title,
+                                                  price: item.price,
+                                                  imageURL: item.imageURL,
+                                                  condition: item.condition))
+        }
+        self.model = products
+    }
+    
 }

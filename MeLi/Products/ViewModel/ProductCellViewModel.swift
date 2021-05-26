@@ -32,9 +32,9 @@ class ProductCellViewModel: ProductCellViewModelProtocol {
         return product.condition
     }
     
-    private let product: Product
+    private let product: ProductModelViewModelProtocol
     
-    init(product: Product) {
+    init(product: ProductModelViewModelProtocol) {
         self.product = product
     }
 }

@@ -42,13 +42,13 @@ class ProductsView: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let productSelected = sender as? Product else {
+        guard let prodId = sender as? String else {
             return
         }
         guard let prodDetailVC = segue.destination as? ProductDetailView else {
             return
         }
-        prodDetailVC.viewModel = ProductDetailViewModel(id: productSelected.id)
+        prodDetailVC.viewModel = ProductDetailViewModel(id: prodId)
         navigationItem.backBarButtonItem = UIBarButtonItem()
     }
     
@@ -56,23 +56,24 @@ class ProductsView: UIViewController {
 
 extension ProductsView: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel?.productsList.count ?? 0
+        return viewModel?.model?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ProductCellView") as? ProductCellView, let viewModel = self.viewModel else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ProductCellView") as? ProductCellView,
+              let productModel = self.viewModel?.model else {
             return UITableViewCell()
         }
         cell.selectionStyle = .none
-        cell.configure(viewModel: ProductCellViewModel(product: viewModel.productsList[indexPath.row]))
+        cell.configure(viewModel: ProductCellViewModel(product: productModel[indexPath.row]))
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let product = viewModel?.productsList[indexPath.row] else {
+        guard let product = viewModel?.model![indexPath.row] else {
             return
         }
-        self.performSegue(withIdentifier: "ShowProductDetail", sender: product)
+        self.performSegue(withIdentifier: "ShowProductDetail", sender: product.id)
     }
 }
 
