@@ -8,9 +8,9 @@ In this App only a few calls are made with no need of an Access Token.
 
 ### Technology
 
-MacOS Big Sur 11.3.1
-XCode Version: 12.4
-Language: Swift
+* MacOS Big Sur 11.3.1
+* XCode Version: 12.4
+* Language: Swift
 
 ### About
 
