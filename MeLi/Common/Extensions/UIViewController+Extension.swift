@@ -14,16 +14,19 @@ extension UIViewController {
     }
     
     func showErrorWithMessage(_ message: String, completion: @escaping () -> Void) {
-        let alert = UIAlertController(title: "Error",
-                                      message: message,
-                                      preferredStyle: .alert)
         
-        alert.addAction(UIAlertAction(title: "Ok",
-                                      style: .default,
-                                      handler: { (UIAlertAction) -> Void in
-                                        completion()
-                                      }))
-        
-        present(alert, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: "Error",
+                                          message: message,
+                                          preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "Ok",
+                                          style: .default,
+                                          handler: { (UIAlertAction) -> Void in
+                                            completion()
+                                          }))
+            
+            self.present(alert, animated: true, completion: nil)
+        }
     }
 }

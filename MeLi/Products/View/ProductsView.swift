@@ -93,25 +93,21 @@ extension ProductsView: UISearchBarDelegate {
         }
         
         view.showLoadingView(activityColor: .gray, backgroundColor: .white)
-        viewModel?.getProducts(using: formatedText, completion: { [weak self] (response) in
+        viewModel?.getProducts(using: formatedText) { [weak self] (response) in
             switch response {
             case .success:
                 break
             case .empty:
-                DispatchQueue.main.async {
-                    self?.showErrorWithMessage("PRODUCTS_NO_RESULT_MSG".localized, completion: {
-                        searchBar.text = ""
-                    })
+                self?.showErrorWithMessage("PRODUCTS_NO_RESULT_MSG".localized) {
+                    searchBar.text = ""
                 }
             case .failure(_):
-                DispatchQueue.main.async {
-                    self?.showErrorWithMessage("PRODUCTS_ERROR_MSG".localized)
-                }
+                self?.showErrorWithMessage("PRODUCTS_ERROR_MSG".localized)
             }
             DispatchQueue.main.async {
                 self?.productTableView.reloadData()
                 self?.view.hideLoadingView()
             }
-        })
+        }
     }
 }
