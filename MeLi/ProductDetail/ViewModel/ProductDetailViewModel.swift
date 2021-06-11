@@ -40,14 +40,14 @@ extension ProductDetailViewModel: ProductDetailViewModelProtocol {
             switch response {
             case .success(let resp):
                 self?.handleProdDetailSuccess(prodDetail: resp)
-                self?.getProdDescription(completion: { (response) in
+                self?.getProdDescription() { (response) in
                     switch response {
                     case .success:
                         completion(.success)
                     case .failure(let error):
                         completion(.failure(error))
                     }
-                })
+                }
             case .failure(let error):
                 completion(.failure(error))
             }
