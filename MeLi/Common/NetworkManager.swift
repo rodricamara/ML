@@ -13,7 +13,7 @@ protocol NetworkManagerProtocol {
 
 final class NetworkManager {
     
-    let session = URLSession.shared
+    private let session = URLSession.shared
     
     init() {}
     

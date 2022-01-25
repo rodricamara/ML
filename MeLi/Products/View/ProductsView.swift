@@ -12,27 +12,38 @@ final class ProductsView: UIViewController {
     @IBOutlet var searchBar: UISearchBar!
     @IBOutlet weak var productTableView: UITableView!
     
-    var viewModel: ProductViewModelProtocol?
+    private var viewModel: ProductViewModelProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavBar()
         configureSearchBar()
-        configureProductsTableView()
+        configureTableView()
         viewModel = ProductViewModel()
     }
     
-    private func configureNavBar() {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let prodId = sender as? String,
+              let prodDetailVC = segue.destination as? ProductDetailView else { return }
+        prodDetailVC.viewModel = ProductDetailViewModel(id: prodId)
+        navigationItem.backBarButtonItem = UIBarButtonItem()
+    }
+    
+}
+
+private extension ProductsView {
+    
+    func configureNavBar() {
         navigationItem.titleView = searchBar
         navigationController?.navigationBar.barTintColor = .yellow
     }
     
-    private func  configureSearchBar() {
+    func  configureSearchBar() {
         searchBar.placeholder = "SEARCH_BAR_PLACEHOLDER".localized
         searchBar.delegate = self
     }
     
-    private func configureProductsTableView() {
+    func configureTableView() {
         let nib = UINib(nibName: "ProductCellView", bundle: nil)
         productTableView.register(nib, forCellReuseIdentifier: "ProductCellView")
         productTableView.delegate = self
@@ -41,39 +52,25 @@ final class ProductsView: UIViewController {
         productTableView.tableFooterView = UIView(frame: .zero)
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let prodId = sender as? String else {
-            return
-        }
-        guard let prodDetailVC = segue.destination as? ProductDetailView else {
-            return
-        }
-        prodDetailVC.viewModel = ProductDetailViewModel(id: prodId)
-        navigationItem.backBarButtonItem = UIBarButtonItem()
-    }
-    
 }
 
 extension ProductsView: UITableViewDataSource, UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel?.model?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ProductCellView") as? ProductCellView,
-              let productModel = self.viewModel?.model else {
-            return UITableViewCell()
-        }
+              let productModel = self.viewModel?.model else { return UITableViewCell() }
         cell.selectionStyle = .none
         cell.configure(viewModel: ProductCellViewModel(product: productModel[indexPath.row]))
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let product = viewModel?.model![indexPath.row] else {
-            return
-        }
-        self.performSegue(withIdentifier: "ShowProductDetail", sender: product.id)
+        guard let product = viewModel?.model?[indexPath.row] else { return }
+        performSegue(withIdentifier: "ShowProductDetail", sender: product.id)
     }
 }
 
@@ -84,29 +81,26 @@ extension ProductsView: UISearchBarDelegate {
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        guard let text = searchBar.text else {
-            return
-        }
-        
-        guard let formatedText = text.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed), text.count >= 1 else {
-            return
-        }
+        guard let text = searchBar.text,
+              let formatedText = text.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed),
+              text.count >= 1 else { return }
         
         view.showLoadingView(activityColor: .gray, backgroundColor: .white)
         viewModel?.getProducts(using: formatedText) { [weak self] (response) in
+            guard let self = self else { return }
             switch response {
             case .success:
                 break
             case .empty:
-                self?.showErrorWithMessage("PRODUCTS_NO_RESULT_MSG".localized) {
+                self.showErrorWithMessage("PRODUCTS_NO_RESULT_MSG".localized) {
                     searchBar.text = ""
                 }
-            case .failure(_):
-                self?.showErrorWithMessage("PRODUCTS_ERROR_MSG".localized)
+            case .failure:
+                self.showErrorWithMessage("PRODUCTS_ERROR_MSG".localized)
             }
             DispatchQueue.main.async {
-                self?.productTableView.reloadData()
-                self?.view.hideLoadingView()
+                self.productTableView.reloadData()
+                self.view.hideLoadingView()
             }
         }
     }

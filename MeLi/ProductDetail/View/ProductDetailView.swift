@@ -28,17 +28,21 @@ final class ProductDetailView: UIViewController {
         fetchProductDetail()
     }
     
-    private func configureNavBar() {
+}
+
+private extension ProductDetailView {
+    
+    func configureNavBar() {
         title = "PRODUCT_DETAIL_TITLE".localized
-        self.navigationController?.navigationBar.tintColor = .black 
+        navigationController?.navigationBar.tintColor = .black
     }
     
-    private func configureDelegates() {
+    func configureDelegates() {
         imagesCollection.dataSource = self
         imagesCollection.delegate = self
     }
     
-    private func fetchProductDetail() {
+    func fetchProductDetail() {
         view.showLoadingView(activityColor: .gray, backgroundColor: .white)
         
         viewModel?.getProductDetail() { [weak self] response in
@@ -58,7 +62,7 @@ final class ProductDetailView: UIViewController {
         }
     }
     
-    private func configureUI() {
+    func configureUI() {
         guard let viewModel = viewModel else { return }
         descriptionTitle.text = "DESCRIPTION_MSG".localized
         prodTitle.text = viewModel.modelDetail?.title
@@ -75,10 +79,9 @@ extension ProductDetailView: UICollectionViewDataSource, UICollectionViewDelegat
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductsImagesCell", for: indexPath) as! ProductDetailCollectionViewCell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductsImagesCell", for: indexPath) as? ProductDetailCollectionViewCell else { return UICollectionViewCell() }
 
         cell.picture = viewModel?.modelDetail?.pictures[indexPath.item]
-        
         return cell
     }
     

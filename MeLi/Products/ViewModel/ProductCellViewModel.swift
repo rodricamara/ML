@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 protocol ProductCellViewModelProtocol {
     var image: String? { get }
@@ -14,7 +15,17 @@ protocol ProductCellViewModelProtocol {
     var condition: String { get }
 }
 
-final class ProductCellViewModel: ProductCellViewModelProtocol {
+final class ProductCellViewModel {
+   
+    private let product: ProductModelViewModelProtocol
+    
+    init(product: ProductModelViewModelProtocol) {
+        self.product = product
+    }
+    
+}
+
+extension ProductCellViewModel: ProductCellViewModelProtocol {
     
     var image: String? {
         return product.imageURL
@@ -32,9 +43,4 @@ final class ProductCellViewModel: ProductCellViewModelProtocol {
         return product.condition
     }
     
-    private let product: ProductModelViewModelProtocol
-    
-    init(product: ProductModelViewModelProtocol) {
-        self.product = product
-    }
 }

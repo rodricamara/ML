@@ -20,7 +20,7 @@ protocol ProductServiceProtocol {
 
 final class ProductService {
     
-    var manager: NetworkManagerProtocol
+    private var manager: NetworkManagerProtocol
     
     init(manager: NetworkManagerProtocol = NetworkManager()) {
         self.manager = manager

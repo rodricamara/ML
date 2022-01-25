@@ -11,16 +11,18 @@ final class ProductDetailCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var productImage: UIImageView!
     
-    var picture: PictureModel? {
+    var picture: PictureModelProtocol? {
         didSet {
             self.updateUI()
         }
     }
     
+}
+
+private extension ProductDetailCollectionViewCell {
     private func updateUI() {
-        self.productImage.image = UIImage(named: "PLACEHOLDER".localized)
+        productImage.image = UIImage(named: "PLACEHOLDER".localized)
         guard let picture = picture else { return }
-        self.productImage.image(fromString: picture.imageUrl)
+        productImage.image(fromString: picture.imageUrl)
     }
-    
 }

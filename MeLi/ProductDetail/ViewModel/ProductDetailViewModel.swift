@@ -20,15 +20,14 @@ protocol ProductDetailViewModelProtocol {
 
 final class ProductDetailViewModel {
     
-    var id: String
-    let service: ProductDetailServiceProtocol
-    var modelDetail: ProductDetailModelProtocol?
-    var modelDescrip: ProductDescriptionModelProtocol?
+    private var id: String
+    private let service: ProductDetailServiceProtocol
+    internal var modelDetail: ProductDetailModelProtocol?
+    internal var modelDescrip: ProductDescriptionModelProtocol?
     
-    init(service: ProductDetailServiceProtocol = ProductDetailService(),
-         id: String) {
-        self.service = service
+    init(id: String, service: ProductDetailServiceProtocol = ProductDetailService()) {
         self.id = id
+        self.service = service
     }
     
 }
@@ -53,8 +52,11 @@ extension ProductDetailViewModel: ProductDetailViewModelProtocol {
             }
         }
     }
+}
+
+private extension ProductDetailViewModel {
     
-    private func getProdDescription(completion: @escaping (GetProductDetailResponse) -> Void) {
+    func getProdDescription(completion: @escaping (GetProductDetailResponse) -> Void) {
         service.searchProductDescription(with: id) { [weak self] (response) in
             switch response {
             case .success(let resp):
@@ -66,15 +68,19 @@ extension ProductDetailViewModel: ProductDetailViewModelProtocol {
         }
     }
     
-    private func handleProdDetailSuccess(prodDetail: ProductDetail) {
-        var pictures = [PictureModel]()
-        for item in prodDetail.pictures {
-            pictures.append(PictureModel(imageUrl: item.imageUrl))
+    func handleProdDetailSuccess(prodDetail: ProductDetail) {
+        modelDetail = ProductDetailModel(title: prodDetail.title,
+                                         pictures: mapPictures(pictures: prodDetail.pictures),
+                                         price: prodDetail.price,
+                                         condition: prodDetail.condition)
+    }
+    
+    func mapPictures(pictures: [Picture]) -> [PictureModelProtocol] {
+        var picturesModel = [PictureModel]()
+        pictures.forEach { picture in
+            picturesModel.append(.init(imageUrl: picture.imageUrl))
         }
-        self.modelDetail = ProductDetailModel(title: prodDetail.title,
-                                              pictures: pictures,
-                                              price: prodDetail.price,
-                                              condition: prodDetail.condition)
+        return picturesModel
     }
     
 }

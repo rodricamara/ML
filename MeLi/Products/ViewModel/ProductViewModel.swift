@@ -10,7 +10,7 @@ import Foundation
 enum GetProductsResponse {
     case success
     case empty
-    case failure(MLError)
+    case failure
 }
 
 protocol ProductViewModelProtocol {
@@ -20,8 +20,8 @@ protocol ProductViewModelProtocol {
 
 final class ProductViewModel {
     
-    var model: [ProductModelViewModelProtocol]?
-    let service: ProductServiceProtocol
+    internal var model: [ProductModelViewModelProtocol]?
+    private let service: ProductServiceProtocol
     
     init(service: ProductServiceProtocol = ProductService()) {
         self.service = service
@@ -41,20 +41,20 @@ extension ProductViewModel: ProductViewModelProtocol {
                     self?.handleProductsSuccess(products: responseModel.results)
                     completion(.success)
                 }
-            case .failure(let error):
-                completion(.failure(error))
+            case .failure(_):
+                completion(.failure)
             }
         }
     }
     
     private func handleProductsSuccess(products: [Product]) {
         var productsModel = [ProductModelViewModel]()
-        for item in products {
-            productsModel.append(ProductModelViewModel(id: item.id,
-                                                       title: item.title,
-                                                       price: item.price,
-                                                       imageURL: item.imageURL,
-                                                       condition: item.condition))
+        products.forEach { product in
+            productsModel.append(ProductModelViewModel(id: product.id,
+                                                       title: product.title,
+                                                       price: product.price,
+                                                       imageURL: product.imageURL,
+                                                       condition: product.condition))
         }
         self.model = productsModel
     }
