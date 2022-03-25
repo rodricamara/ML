@@ -10,7 +10,7 @@ import UIKit
 extension UIImageView {
     
     public func image(fromUrl url: URL) {
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        let task = URLSession.shared.dataTask(with: url) { data, response, _ in
             if let response = data {
                 DispatchQueue.main.async {
                     self.image = UIImage(data: response)

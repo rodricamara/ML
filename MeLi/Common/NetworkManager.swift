@@ -22,7 +22,7 @@ final class NetworkManager {
 extension NetworkManager: NetworkManagerProtocol {
     func callAPI<T>(request: URLRequest, completion: @escaping (Result<T, MLError>) -> Void) where T: Decodable {
         
-        session.dataTask(with: request, completionHandler: { (data, response, error) in
+        session.dataTask(with: request, completionHandler: { data, _, error in
             if error.isNil {
                 guard let data = data else {
                     completion(.failure(.dataIsNil))
