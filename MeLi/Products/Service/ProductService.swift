@@ -20,7 +20,7 @@ protocol ProductServiceProtocol {
 
 final class ProductService {
     
-    private var manager: NetworkManagerProtocol
+    private let manager: NetworkManagerProtocol
     
     init(manager: NetworkManagerProtocol = NetworkManager()) {
         self.manager = manager
@@ -32,19 +32,17 @@ extension ProductService: ProductServiceProtocol {
     
     func searchProducts(products: String, completion: @escaping ProductResponseClosure) {
         
-        guard let url = URL(string: MLEndpoints.baseURL.rawValue+MLEndpoints.productsSearch.rawValue+products) else {
-            let error: MLError = .invalidURL
-            print(error.errorDescription)
-            return completion(.failure(error: error))
+        let urlString = MLEndpoints.baseURL.rawValue + MLEndpoints.productsSearch.rawValue + products
+        guard let url = URL(string: urlString) else {
+            return completion(.failure(error: MLError.invalidURL))
         }
-        let request = URLRequest.init(url: url, method: .post, body: nil)
         
+        let request = URLRequest.init(url: url, method: .post, body: nil)
         manager.callAPI(request: request) { (response: Result<ProductResult, MLError>) in
             switch response {
             case .success(let resp):
                 completion(.success(products: resp))
             case .failure(let error):
-                print(error.errorDescription)
                 completion(.failure(error: error))
             }
         }

@@ -79,8 +79,10 @@ extension ProductDetailView: UICollectionViewDataSource, UICollectionViewDelegat
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductsImagesCell", for: indexPath) as? ProductDetailCollectionViewCell else { return UICollectionViewCell() }
-
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductsImagesCell", for: indexPath) as? ProductDetailCollectionViewCell
+        else {
+            return UICollectionViewCell()
+        }
         cell.picture = viewModel?.modelDetail?.pictures[indexPath.item]
         return cell
     }

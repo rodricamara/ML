@@ -13,7 +13,7 @@ final class ProductDetailCollectionViewCell: UICollectionViewCell {
     
     var picture: PictureModelProtocol? {
         didSet {
-            self.updateUI()
+            updateUI()
         }
     }
     
@@ -22,7 +22,8 @@ final class ProductDetailCollectionViewCell: UICollectionViewCell {
 private extension ProductDetailCollectionViewCell {
     private func updateUI() {
         productImage.image = UIImage(named: "PLACEHOLDER".localized)
-        guard let picture = picture else { return }
-        productImage.image(fromString: picture.imageUrl)
+        if let picture = picture {
+            productImage.image(fromString: picture.imageUrl)
+        }
     }
 }

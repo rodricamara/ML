@@ -22,10 +22,11 @@ final class ProductDetailViewModel {
     
     private var id: String
     private let service: ProductDetailServiceProtocol
-    internal var modelDetail: ProductDetailModelProtocol?
-    internal var modelDescrip: ProductDescriptionModelProtocol?
+    var modelDetail: ProductDetailModelProtocol?
+    var modelDescrip: ProductDescriptionModelProtocol?
     
-    init(id: String, service: ProductDetailServiceProtocol = ProductDetailService()) {
+    init(id: String,
+         service: ProductDetailServiceProtocol = ProductDetailService()) {
         self.id = id
         self.service = service
     }
@@ -35,11 +36,11 @@ final class ProductDetailViewModel {
 extension ProductDetailViewModel: ProductDetailViewModelProtocol {
     
     func getProductDetail(completion: @escaping (GetProductDetailResponse) -> Void) {
-        service.searchProductDetail(with: id) { [weak self] (response) in
+        service.searchProductDetail(with: id) { [weak self] response in
             switch response {
-            case .success(let resp):
-                self?.handleProdDetailSuccess(prodDetail: resp)
-                self?.getProdDescription() { (response) in
+            case .success(let prodDetail):
+                self?.handleProdDetailSuccess(prodDetail: prodDetail)
+                self?.getProdDescription() { response in
                     switch response {
                     case .success:
                         completion(.success)
@@ -57,7 +58,7 @@ extension ProductDetailViewModel: ProductDetailViewModelProtocol {
 private extension ProductDetailViewModel {
     
     func getProdDescription(completion: @escaping (GetProductDetailResponse) -> Void) {
-        service.searchProductDescription(with: id) { [weak self] (response) in
+        service.searchProductDescription(with: id) { [weak self] response in
             switch response {
             case .success(let resp):
                 self?.modelDescrip = ProductDescriptionModel(description: resp.description)

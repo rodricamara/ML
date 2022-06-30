@@ -24,7 +24,10 @@ final class ProductsView: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let prodId = sender as? String,
-              let prodDetailVC = segue.destination as? ProductDetailView else { return }
+              let prodDetailVC = segue.destination as? ProductDetailView
+        else {
+            return
+        }
         prodDetailVC.viewModel = ProductDetailViewModel(id: prodId)
         navigationItem.backBarButtonItem = UIBarButtonItem()
     }
@@ -38,7 +41,7 @@ private extension ProductsView {
         navigationController?.navigationBar.barTintColor = .yellow
     }
     
-    func  configureSearchBar() {
+    func configureSearchBar() {
         searchBar.placeholder = "SEARCH_BAR_PLACEHOLDER".localized
         searchBar.delegate = self
     }
@@ -48,7 +51,6 @@ private extension ProductsView {
         productTableView.register(nib, forCellReuseIdentifier: "ProductCellView")
         productTableView.delegate = self
         productTableView.dataSource = self
-        productTableView.allowsSelection = true
         productTableView.tableFooterView = UIView(frame: .zero)
     }
     
@@ -62,7 +64,10 @@ extension ProductsView: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ProductCellView") as? ProductCellView,
-              let productModel = self.viewModel?.model else { return UITableViewCell() }
+              let productModel = self.viewModel?.model
+        else {
+            return UITableViewCell()
+        }
         cell.selectionStyle = .none
         cell.configure(viewModel: ProductCellViewModel(product: productModel[indexPath.row]))
         return cell
@@ -86,7 +91,7 @@ extension ProductsView: UISearchBarDelegate {
               text.count >= 1 else { return }
         
         view.showLoadingView(activityColor: .gray, backgroundColor: .white)
-        viewModel?.getProducts(using: formatedText) { [weak self] (response) in
+        viewModel?.getProducts(using: formatedText) { [weak self] response in
             guard let self = self else { return }
             switch response {
             case .success:

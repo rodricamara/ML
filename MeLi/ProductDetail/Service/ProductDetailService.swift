@@ -27,7 +27,7 @@ protocol ProductDetailServiceProtocol {
 
 final class ProductDetailService {
     
-    private var manager: NetworkManagerProtocol
+    private let manager: NetworkManagerProtocol
     
     init(manager: NetworkManagerProtocol = NetworkManager()) {
         self.manager = manager
@@ -39,13 +39,12 @@ extension ProductDetailService: ProductDetailServiceProtocol {
     
     func searchProductDetail(with id: String, completion: @escaping ProductDetailResponseClosure) {
         
-        guard let url = URL(string: MLEndpoints.baseURL.rawValue+MLEndpoints.itemSearch.rawValue+id) else {
-            let error: MLError = .invalidURL
-            print(error.errorDescription)
-            return completion(.failure(error: error))
+        let urlString = MLEndpoints.baseURL.rawValue + MLEndpoints.itemSearch.rawValue + id
+        guard let url = URL(string: urlString) else {
+            return completion(.failure(error: MLError.invalidURL))
         }
-        let request = URLRequest.init(url: url, method: .get, body: nil)
         
+        let request = URLRequest.init(url: url, method: .get, body: nil)
         manager.callAPI(request: request) { (response: Result<ProductDetail, MLError>) in
             switch response {
             case .success(let resp):
@@ -58,19 +57,17 @@ extension ProductDetailService: ProductDetailServiceProtocol {
     
     func searchProductDescription(with id: String, completion: @escaping ProductDescriptionResponseClosure) {
         
-        guard let url = URL(string: MLEndpoints.baseURL.rawValue+MLEndpoints.itemSearch.rawValue+id+MLEndpoints.itemDescription.rawValue) else {
-            let error: MLError = .invalidURL
-            print(error.errorDescription)
-            return completion(.failure(error: error))
+        let urlString = MLEndpoints.baseURL.rawValue + MLEndpoints.itemSearch.rawValue + id + MLEndpoints.itemDescription.rawValue
+        guard let url = URL(string: urlString) else {
+            return completion(.failure(error: MLError.invalidURL))
         }
-        let request = URLRequest.init(url: url, method: .get, body: nil)
         
+        let request = URLRequest.init(url: url, method: .get, body: nil)
         manager.callAPI(request: request) { (response: Result<Description, MLError>) in
             switch response {
             case .success(let resp):
                 completion(.success(description: resp))
             case .failure(let error):
-                print(error.errorDescription)
                 completion(.failure(error: error))
             }
         }

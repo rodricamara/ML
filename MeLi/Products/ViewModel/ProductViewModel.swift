@@ -20,7 +20,7 @@ protocol ProductViewModelProtocol {
 
 final class ProductViewModel {
     
-    internal var model: [ProductModelViewModelProtocol]?
+    var model: [ProductModelViewModelProtocol]?
     private let service: ProductServiceProtocol
     
     init(service: ProductServiceProtocol = ProductService()) {

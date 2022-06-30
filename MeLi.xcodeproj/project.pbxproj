@@ -47,13 +47,6 @@
 			remoteGlobalIDString = 80D9D74126462491001A6F73;
 			remoteInfo = MeLi;
 		};
-		80D9D76426462494001A6F73 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 80D9D73A26462491001A6F73 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 80D9D74126462491001A6F73;
-			remoteInfo = MeLi;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -91,7 +84,6 @@
 		80D9D75826462494001A6F73 /* MeLiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MeLiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		80D9D75C26462494001A6F73 /* MeLiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeLiTests.swift; sourceTree = "<group>"; };
 		80D9D75E26462494001A6F73 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		80D9D76326462494001A6F73 /* MeLiUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MeLiUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,13 +95,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		80D9D75526462494001A6F73 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		80D9D76026462494001A6F73 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -147,12 +132,12 @@
 		8028184626475BB9006B0C40 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				8028183526475116006B0C40 /* UIViewController+Extension.swift */,
-				8028185226476540006B0C40 /* UIImageView+Extension.swift */,
-				806EFFCC26470CD900AB52FD /* URLRequest+Extension.swift */,
 				806EFFB72646F12B00AB52FD /* Optional+Extension.swift */,
-				8034B74E264858750029841A /* UIView+Extension.swift */,
 				80B1F7C7265D6B8E00AC4185 /* String+Extension.swift */,
+				8028185226476540006B0C40 /* UIImageView+Extension.swift */,
+				8034B74E264858750029841A /* UIView+Extension.swift */,
+				8028183526475116006B0C40 /* UIViewController+Extension.swift */,
+				806EFFCC26470CD900AB52FD /* URLRequest+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -191,11 +176,11 @@
 		806EFFB12646EC7300AB52FD /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				8028184626475BB9006B0C40 /* Extensions */,
-				806EFFB22646ED6B00AB52FD /* NetworkManager.swift */,
-				806EFFBC2646F3EE00AB52FD /* MLError.swift */,
-				806EFFC22646FB4100AB52FD /* MLEndpoints.swift */,
 				80B1F7CC265D6BB700AC4185 /* Localizable.strings */,
+				806EFFC22646FB4100AB52FD /* MLEndpoints.swift */,
+				806EFFBC2646F3EE00AB52FD /* MLError.swift */,
+				806EFFB22646ED6B00AB52FD /* NetworkManager.swift */,
+				8028184626475BB9006B0C40 /* Extensions */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -250,7 +235,6 @@
 			children = (
 				80D9D74226462491001A6F73 /* MeLi.app */,
 				80D9D75826462494001A6F73 /* MeLiTests.xctest */,
-				80D9D76326462494001A6F73 /* MeLiUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -258,15 +242,15 @@
 		80D9D74426462491001A6F73 /* MeLi */ = {
 			isa = PBXGroup;
 			children = (
-				806EFFB12646EC7300AB52FD /* Common */,
-				806C82A6264779E70021F851 /* Products */,
-				806C82A7264779F50021F851 /* ProductDetail */,
-				80D9D74B26462491001A6F73 /* Main.storyboard */,
-				80D9D75026462494001A6F73 /* LaunchScreen.storyboard */,
-				80D9D74E26462494001A6F73 /* Assets.xcassets */,
 				80D9D75326462494001A6F73 /* Info.plist */,
 				80D9D74526462491001A6F73 /* AppDelegate.swift */,
 				80D9D74726462491001A6F73 /* SceneDelegate.swift */,
+				80D9D74E26462494001A6F73 /* Assets.xcassets */,
+				806EFFB12646EC7300AB52FD /* Common */,
+				80D9D75026462494001A6F73 /* LaunchScreen.storyboard */,
+				80D9D74B26462491001A6F73 /* Main.storyboard */,
+				806C82A7264779F50021F851 /* ProductDetail */,
+				806C82A6264779E70021F851 /* Products */,
 			);
 			path = MeLi;
 			sourceTree = "<group>";
@@ -274,8 +258,8 @@
 		80D9D75B26462494001A6F73 /* MeLiTests */ = {
 			isa = PBXGroup;
 			children = (
-				80D9D75C26462494001A6F73 /* MeLiTests.swift */,
 				80D9D75E26462494001A6F73 /* Info.plist */,
+				80D9D75C26462494001A6F73 /* MeLiTests.swift */,
 			);
 			path = MeLiTests;
 			sourceTree = "<group>";
@@ -318,24 +302,6 @@
 			productReference = 80D9D75826462494001A6F73 /* MeLiTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		80D9D76226462494001A6F73 /* MeLiUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 80D9D77226462494001A6F73 /* Build configuration list for PBXNativeTarget "MeLiUITests" */;
-			buildPhases = (
-				80D9D75F26462494001A6F73 /* Sources */,
-				80D9D76026462494001A6F73 /* Frameworks */,
-				80D9D76126462494001A6F73 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				80D9D76526462494001A6F73 /* PBXTargetDependency */,
-			);
-			name = MeLiUITests;
-			productName = MeLiUITests;
-			productReference = 80D9D76326462494001A6F73 /* MeLiUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -349,10 +315,6 @@
 						CreatedOnToolsVersion = 12.4;
 					};
 					80D9D75726462494001A6F73 = {
-						CreatedOnToolsVersion = 12.4;
-						TestTargetID = 80D9D74126462491001A6F73;
-					};
-					80D9D76226462494001A6F73 = {
 						CreatedOnToolsVersion = 12.4;
 						TestTargetID = 80D9D74126462491001A6F73;
 					};
@@ -373,7 +335,6 @@
 			targets = (
 				80D9D74126462491001A6F73 /* MeLi */,
 				80D9D75726462494001A6F73 /* MeLiTests */,
-				80D9D76226462494001A6F73 /* MeLiUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -392,13 +353,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		80D9D75626462494001A6F73 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		80D9D76126462494001A6F73 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -447,13 +401,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		80D9D75F26462494001A6F73 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -461,11 +408,6 @@
 			isa = PBXTargetDependency;
 			target = 80D9D74126462491001A6F73 /* MeLi */;
 			targetProxy = 80D9D75926462494001A6F73 /* PBXContainerItemProxy */;
-		};
-		80D9D76526462494001A6F73 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 80D9D74126462491001A6F73 /* MeLi */;
-			targetProxy = 80D9D76426462494001A6F73 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -687,46 +629,6 @@
 			};
 			name = Release;
 		};
-		80D9D77326462494001A6F73 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = ZAFW5A3KA7;
-				INFOPLIST_FILE = MeLiUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.meli.MeLiUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = MeLi;
-			};
-			name = Debug;
-		};
-		80D9D77426462494001A6F73 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = ZAFW5A3KA7;
-				INFOPLIST_FILE = MeLiUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.meli.MeLiUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = MeLi;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -753,15 +655,6 @@
 			buildConfigurations = (
 				80D9D77026462494001A6F73 /* Debug */,
 				80D9D77126462494001A6F73 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		80D9D77226462494001A6F73 /* Build configuration list for PBXNativeTarget "MeLiUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				80D9D77326462494001A6F73 /* Debug */,
-				80D9D77426462494001A6F73 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

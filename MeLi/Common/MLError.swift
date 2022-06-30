@@ -6,7 +6,6 @@
 //
 
 enum MLError: Error {
-    
     case decodingError
     case dataIsNil
     case serviceError
